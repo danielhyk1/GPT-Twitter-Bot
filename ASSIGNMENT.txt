@@ -1,0 +1,87 @@
+Name: DANIEL KIM
+NETID: DHK42
+
+****run "pip install -r "REQUIREMENTS.TXT" (without quotes) in order to install all packages neccessary****
+
+#2 (delegate.py)
+INSTRUCTIONS:
+i).
+-Currently delegate.py is hardcoded to authenticate with my bot
+-If you wish to authenticate with your own bot, replace the Consumer API keys with your own under
+the comment "#REPLACE TOKENS BELOW"
+    1. To run delegate.py, simply run it with python.
+    2. Once it is running, open up a web browser and search/connect to "localhost:8080" (without quotes)
+    3. This will redirect you to twitter to authenticate your profile with the bot, and after
+        authenticating, will redirect you to a stale page and the python code will finish with
+        outputting the Access Token and Access Token Secret to the terminal
+
+ii). This protocol has three round-trips in order to make sure that the authentication
+process is authenticating the correct user account. It is outlined in the
+twitter documentation for the oAuth process that first, the user creates a request
+for a request token from Twitter in order to engage intent for authentication. Second,
+Twitter gives the user the request token. Then the user takes this request token and using its
+own key, converts the request token into a usable access token. This way, this access token
+is only usable by the user who has been authenticated. This protocol ahs three round-trips
+because the request of the request token, receiving of the request token, and converting the
+request token to a useable access token takes three steps. This process cannot be done with
+one step without the authentication process being compromised as other users will be able to
+authenticate without proper permission.
+
+#3 (fetch.py)
+INSTRUCTIONS:
+-Currently fetch.py is hardcoded to authenticate with my bot, in order to change this,
+at the top of the code, change the:
+    API Consumer Keys: API key and API secret key
+    Access tokens: Access token and Access token secret
+-After running fetch.py, the posting of tweets may be a bit slow because it filters through Vader sentiments, give it a
+a couple of minutes, this does not mean the program has crashed or that it is in an infinite loop
+    1. Change the number of training steps under the comment "TO CHANGE STEPS"
+        1a). Replace the x in function model_train("file", x) with the number of training steps
+        2b). It is currently training with one step, or the least amount of steps (fastest)
+    2. Change the number of possible tweets you want to grab from Twitter
+        2a). Replace the x in get_tweets(api, "name", x, "file", boolean) with the number of tweets
+        2b). Currently it fetches 1000 tweets from Bernie Sanders and 10 tweets from @FreedoniaNews (I understand there are
+            only 8 tweets from @FreedoniaNews so far, but it will grab all possible tweets)
+    3. Run fetch.py with Python
+    4. To run it again, DELETE two text files created by the bot
+
+#4 (botmeter.py)
+INSTRUCTIONS:
+    1. Change the username/handle of the account you want to check for the comment under "TO CHANGE USER"
+        1a. Replace "@name" in check_user("@name") with a username with the "@" before it
+        1b. the "@" symbol is needed before the username
+    2. Run botmeter.py with python
+
+RESULTS:
+    Total Results:  {'content': 4.5, 'english': 2.3, 'friend': 4.6, 'network': 4.6,
+                    'sentiment': 4.0, 'temporal': 4.6, 'universal': 2.5, 'user': 1.5}
+Account is inconclusive
+
+
+    The classification is based on two categories, english-based category, labeled 'english' which includes
+'content' and 'sentiment' and the language-independent feature, labeled 'universal' which includes
+'friend', 'network', 'temporal', and 'user'. My bot was considered as "inconclusive", since the total of the
+universal and english categories gives a result that is in between 2 and 3 on a scale of 1 (not a bot) to
+5 (it is a bot). I believe the reason why my bot received a high content and sentiment score is because
+the tweets themselves do not contain any reasonable content nor express any emotional sentiment. The bot also
+scored highly on the friend, network, and temporal, because currently the bot only follows a single account,
+@FreedoniaNews, and has no other friends or mutuals. I believe that the user category was scored neutral since it
+replies to another user. The overall english score means that although it has no content or sentiment,
+botometer does not think the text has been generated. The overall universal score means that the other aspects
+graded were considered by botometer to be neutral. Thus the final results show that my bot is considered neither a
+bot nor a human by the botometer.
+
+ELECTORAL CAMPAIGN PROPOSAL:
+    The most common sense approach to using botometer in the context of an electoral campaign is to analyze
+political user accounts to determine if they are bots or not. Recently, with the 2016 political campaign, there
+has been evidence that bots have been used to either promote their political figure or completely slander the
+opposing figure, in this case, Donald Trump and Hillary Clinton. Any time a political figure is mentioned, whether
+it is in a good or bad light, there could be a python script that fetches the user of this tweet and by using the
+botometer, analyze if this user account is indeed a bot or a human. With the analyzed information, one could
+either report this account to the social media platform, or if used by the social media platform, automatically
+remove and block the account. This will slow down the amount of information that is in circulation about a particular
+political figure and ultimately show true human user opinions of these figures instead of a feed of automated bot
+responses. However, the botometer may need to be stricter on its filter of bots and humans since for my bot, it was
+not able to conclude for sure that it was a bot. Overall, implementing botometer to filter out potential bots of
+political campaigns will slow down election based corruption.
+
